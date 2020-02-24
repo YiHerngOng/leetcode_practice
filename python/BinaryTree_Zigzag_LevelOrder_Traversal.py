@@ -13,6 +13,8 @@ class Solution(object):
         :type root: TreeNode
         :rtype: List[List[int]]
         """
+
+        # Breadth First Search
         if root is None:
             return []
         
@@ -49,3 +51,32 @@ class Solution(object):
                 if_from_left = not if_from_left
                 
         return list_all
+
+# Depth First Search
+class Solution(object):
+    def zigzagLevelOrder(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        if root is None:
+            return []    
+        
+        results = []
+        def DFS(node, level):
+            # if current level does not exist
+            if level >= len(results):
+                results.append(deque([node.val]))
+            else:
+                if level % 2 == 0:
+                    results[level].append(node.val)
+                else:
+                    results[level].appendleft(node.val)
+            
+            for i in [node.left, node.right]:
+                if i is not None:
+                    DFS(i, level+1)
+        
+        DFS(root, 0)
+        
+        return results
